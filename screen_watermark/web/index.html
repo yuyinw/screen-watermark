@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>拍屏水印溯源台</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <h1>拍屏水印溯源台</h1>
+            <p>上传拍屏照片，选择全屏自动、手动四角或部分屏溯源。</p>
+          </div>
+          <label class="file-button">
+            <input id="fileInput" type="file" accept="image/*" />
+            <span>上传图片</span>
+          </label>
+        </header>
+
+        <div class="stage-wrap">
+          <canvas id="photoCanvas"></canvas>
+          <div id="emptyState" class="empty-state">
+            <strong>等待上传图片</strong>
+            <span>请选择包含水印桌面的手机拍屏照片。</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <section>
+          <h2>溯源模式</h2>
+          <div class="segmented" role="radiogroup" aria-label="溯源模式">
+            <label>
+              <input type="radio" name="traceMode" value="auto" checked />
+              <span>全屏自动</span>
+            </label>
+            <label>
+              <input type="radio" name="traceMode" value="manual" />
+              <span>手动四角</span>
+            </label>
+            <label>
+              <input type="radio" name="traceMode" value="partial" />
+              <span>部分屏</span>
+            </label>
+          </div>
+        </section>
+
+        <section id="pointSection">
+          <h2>四角选点</h2>
+          <p class="section-note">手动四角模式下点选屏幕四角。</p>
+          <ol id="pointList" class="points"></ol>
+          <div class="actions">
+            <button id="undoBtn" type="button">撤销一点</button>
+            <button id="resetBtn" type="button">重置选点</button>
+          </div>
+        </section>
+
+        <section>
+          <h2>解码参数</h2>
+          <div class="field">
+            <label for="tilePx">水印块尺寸</label>
+            <input id="tilePx" type="number" min="64" max="1024" value="256" />
+          </div>
+          <div class="field">
+            <label for="offsetStep">偏移步长</label>
+            <input id="offsetStep" type="number" min="4" max="128" value="32" />
+          </div>
+          <button id="decodeBtn" type="button" class="primary" disabled>自动溯源</button>
+        </section>
+
+        <section>
+          <h2>水印登记</h2>
+          <div class="field">
+            <label for="payloadInput">水印载荷</label>
+            <input id="payloadInput" maxlength="8" placeholder="1a2b3c4d" />
+          </div>
+          <div class="field">
+            <label for="subjectInput">人员/对象</label>
+            <input id="subjectInput" placeholder="例如：张三" />
+          </div>
+          <div class="field">
+            <label for="deviceInput">设备</label>
+            <input id="deviceInput" placeholder="例如：研发笔记本 01" />
+          </div>
+          <div class="field">
+            <label for="sessionInput">会话</label>
+            <input id="sessionInput" placeholder="例如：2026-08-13 上午" />
+          </div>
+          <button id="saveRegistryBtn" type="button">保存登记</button>
+        </section>
+
+        <section class="stats">
+          <h2>成功率统计</h2>
+          <div class="stat-grid">
+            <div><strong id="successRate">0%</strong><span>全部记录</span></div>
+            <div><strong id="recentRate">0%</strong><span>最近 50 次</span></div>
+          </div>
+          <p id="statsDetail">暂无溯源记录。</p>
+        </section>
+
+        <section id="resultPanel" class="result hidden">
+          <h2>溯源结果</h2>
+          <div id="statusBadge" class="badge">等待</div>
+          <dl id="resultList"></dl>
+        </section>
+
+        <section id="rectifiedPanel" class="hidden">
+          <h2>矫正预览</h2>
+          <img id="rectifiedImage" alt="矫正后的屏幕预览" />
+        </section>
+
+        <section>
+          <h2>历史记录</h2>
+          <div id="historyList" class="history"></div>
+        </section>
+      </aside>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

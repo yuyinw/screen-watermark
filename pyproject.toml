@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "screen-watermark"
+version = "0.1.0"
+description = "Camera-robust desktop watermarking and trace service for Windows screens."
+readme = "README.en.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=2.1",
+  "Pillow>=10.0",
+  "opencv-python>=4.10",
+  "Flask>=3.1",
+]
+authors = [
+  { name = "yuyinw" },
+]
+keywords = ["watermark", "screen-camera", "traceability", "desktop", "windows"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Operating System :: Microsoft :: Windows",
+  "Topic :: Multimedia :: Graphics",
+  "Topic :: Security",
+]
+
+[project.scripts]
+screen-watermark-generate = "screen_watermark.generate:main"
+screen-watermark-overlay = "screen_watermark.overlay:main"
+screen-watermark-decode = "screen_watermark.decode:main"
+screen-watermark-pick-corners = "screen_watermark.pick_corners:main"
+screen-watermark-trace = "screen_watermark.trace_server:main"
+screen-watermark-selftest = "screen_watermark.selftest:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["screen_watermark*"]
+
+[tool.setuptools.package-data]
+screen_watermark = ["web/*.html", "web/*.css", "web/*.js"]
